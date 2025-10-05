@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울 여행 가이드 소개 | Travel & Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f6fb;
+        }
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003580;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .logo:hover {
+            color: #ffb700;
+        }
+        .intro-container {
+            max-width: 900px;
+            margin: 48px auto 0 auto;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            padding: 40px 32px 32px 32px;
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        .guide-profile {
+            flex: 0 0 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .guide-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffb700;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            background: #eee;
+        }
+        .guide-info-list {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .guide-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+            color: #003580;
+            margin-bottom: 8px;
+        }
+        .guide-info-item i {
+            color: #ffb700;
+            min-width: 20px;
+        }
+        .guide-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .guide-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003580;
+            margin-bottom: 4px;
+        }
+        .guide-title {
+            font-size: 1.2rem;
+            color: #1abc9c;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .guide-desc {
+            font-size: 1.08rem;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+        .scenario-section {
+            background: #f7fafc;
+            border-radius: 14px;
+            padding: 22px 20px;
+            margin-top: 10px;
+        }
+        .scenario-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #003580;
+            margin-bottom: 10px;
+        }
+        .scenario-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .scenario-list li {
+            font-size: 1.02rem;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scenario-list li i {
+            color: #ffb700;
+        }
+        @media (max-width: 900px) {
+            .intro-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 24px 8px;
+                gap: 24px;
+            }
+            .guide-profile {
+                flex-direction: row;
+                gap: 24px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .guide-info-list {
+                margin-top: 0;
+            }
+        }
+        @media (max-width: 600px) {
+            .intro-container {
+                padding: 12px 2vw;
+            }
+            .guide-profile {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        footer {
+            background: #fff;
+            text-align: center;
+            padding: 18px 0;
+            color: #888;
+            font-size: 1rem;
+            margin-top: 40px;
+            box-shadow: 0 -1px 8px rgba(0,0,0,0.03);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo" onclick="location.href='start.html'">
+                <img src="logo.png" alt="Agoda Logo" style="height: 72px; vertical-align: middle; margin-right: 8px;">
+                Traveler
+            </div>
+        </div>
+    </div>
+    <div class="intro-container">
+        <div class="guide-profile">
+            <img class="guide-photo" src="https://randomuser.me/api/portraits/men/32.jpg" alt="가이드 프로필 사진">
+            <div class="guide-info-list">
+                <div class="guide-info-item"><i class="fa-solid fa-user"></i> 나이: 29세</div>
+                <div class="guide-info-item"><i class="fa-solid fa-venus-mars"></i> 성별: 남성</div>
+                <div class="guide-info-item"><i class="fa-solid fa-language"></i> 언어: 한국어, 영어</div>
+                <div class="guide-info-item"><i class="fa-solid fa-flag"></i> 국적: 대한민국</div>
+                <div class="guide-info-item"><i class="fa-solid fa-won-sign"></i> 여행 가격: 70,000원</div>
+            </div>
+            <button id="start-chat-btn" type="button" style="
+                margin-top: 14px;
+                align-self: flex-start;
+                padding: 8px 18px;
+                border-radius: 8px;
+                background: #e74c3c;
+                color: #fff;
+                font-size: 1rem;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 2px 8px rgba(231,76,60,0.13);
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                transition: background 0.2s;
+            ">
+                <i class="fa-solid fa-user-plus"></i>
+                친구 추가 & 채팅 시작
+            </button>
+        </div>
+        <div class="guide-main">
+            <div class="guide-name">김민수</div>
+            <div class="guide-title">서울의 매력을 전하는 여행 가이드</div>
+            <div class="guide-desc">
+                안녕하세요! 저는 서울에서 태어나고 자란 <b>김민수</b>입니다.<br>
+                다양한 외국인 관광객과 내국인 여행자분들에게 서울의 숨겨진 명소와 맛집, 그리고 한국의 문화를 소개하는 것을 좋아합니다.<br>
+                여러분의 여행이 특별한 추억이 될 수 있도록 친절하고 세심하게 안내해드릴게요!
+            </div>
+            <div class="scenario-section">
+                <div class="scenario-title"><i class="fa-solid fa-map-location-dot"></i> 서울 여행 시나리오 예시</div>
+                <ul class="scenario-list">
+                    <li><i class="fa-solid fa-location-dot"></i> <b>경복궁</b>에서 전통 한복 체험 및 역사 이야기</li>
+                    <li><i class="fa-solid fa-location-dot"></i> <b>북촌 한옥마을</b> 산책과 전통 찻집 방문</li>
+                    <li><i class="fa-solid fa-location-dot"></i> <b>광장시장</b>에서 한국 길거리 음식 맛보기</li>
+                    <li><i class="fa-solid fa-location-dot"></i> <b>한강</b> 야경 감상 및 피크닉</li>
+                    <li><i class="fa-solid fa-location-dot"></i> <b>남산타워</b>에서 서울 전경 감상</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 Agoda Clone. All rights reserved.
+    </footer>
+    <!-- Popup Floating Buttons: Home > Script > Chat -->
+    <div id="popup-buttons" style="position: fixed; bottom: 40px; right: 40px; z-index: 9999;">
+        <button id="home-btn" type="button" style="
+            position: absolute;
+            bottom: 144px;
+            right: 0;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #ffb700;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(255,183,0,0.13);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 4;
+        ">
+            <i class="fa-solid fa-house"></i>
+        </button>
+        <button id="script-btn" type="button" style="
+            position: absolute;
+            bottom: 72px;
+            right: 0;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #003580;
+            border: none;
+            color: #fff;
+            font-size: 1.3rem;
+            box-shadow: 0 2px 8px rgba(0,53,128,0.13);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+        ">
+            <i class="fa-solid fa-scroll"></i>
+        </button>
+        <button id="chat-btn" type="button" style="
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #e74c3c;
+            border: none;
+            box-shadow: 0 4px 16px rgba(231,76,60,0.18);
+            color: #fff;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+            z-index: 2;
+        ">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
+    <script>
+    // Ensure DOM is loaded before attaching event listeners
+    window.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('home-btn').onclick = function() {
+            window.location.href = 'start.html';
+        };
+        document.getElementById('script-btn').onclick = function() {
+            window.location.href = 'script.html';
+        };
+        document.getElementById('chat-btn').onclick = function() {
+            window.location.href = 'chat.html';
+        };
+        // Start Chat button
+        document.getElementById('start-chat-btn').onclick = function() {
+            alert('가이드가 친구 목록에 추가되었습니다!\n채팅 페이지로 이동합니다.');
+            window.location.href = 'chat.html';
+        };
+    });
+    </script>
+</body>
+</html>
