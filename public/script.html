@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>Guide Announcement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background: #f0f6fb;
+            color: #003580;
+        }
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003580;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .logo:hover {
+            color: #ffb700;
+        }
+        .banner {
+            background: #003580;
+            color: white;
+            padding: 24px 32px;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        main {
+            max-width: 600px;
+            background: #fff;
+            margin: 32px auto;
+            padding: 24px 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        }
+        form label {
+            display: block;
+            margin-top: 18px;
+            font-weight: 600;
+        }
+        input, select, textarea {
+            width: 100%;
+            margin-top: 6px;
+            padding: 10px 12px;
+            border: 1px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            color: #003580;
+            font-weight: 500;
+        }
+        select[multiple] {
+            height: 120px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        button[type=submit] {
+            margin-top: 28px;
+            width: 100%;
+            background: #ffb700;
+            border: none;
+            padding: 14px 0;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button[type=submit]:hover {
+            background: #e6a800;
+        }
+        /* Floating button group */
+        .floating-btn-group {
+            position: fixed;
+            right: 36px;
+            bottom: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            z-index: 100;
+        }
+        .floating-btn {
+            background: #fff;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            width: 54px;
+            height: 54px;
+            font-size: 2rem;
+            color: #003580;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .floating-btn:hover {
+            background: #ffb700;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo" onclick="location.href='index.html'">
+                <i class="fa-solid fa-hotel"></i> Traveler
+            </div>
+        </div>
+    </div>
+
+    <div class="banner">
+        GUIDE ANNOUNCEMENT
+    </div>
+
+    <main>
+        <form id="guideForm">
+            <label for="date">Date *</label>
+            <input type="date" id="date" name="date" required />
+
+            <label for="destination">Destination *</label>
+            <input type="text" id="destination" name="destination" placeholder="Enter travel destination" required />
+
+            <label for="time">Time *</label>
+            <input type="time" id="time" name="time" required />
+
+            <label for="budget">Desired Budget (KRW) *</label>
+            <input type="number" id="budget" name="budget" placeholder="Enter desired budget" min="0" required />
+
+            <label for="languages">Guide Languages *</label>
+            <select id="languages" name="languages" required multiple>
+                <option value="Korean">한국어</option>
+                <option value="English">English</option>
+                <option value="Japanese">日本語</option>
+                <option value="Vietnamese">Tiếng Việt</option>
+                <option value="Chinese">中文</option>
+            </select>
+
+            <label for="details">Other Details</label>
+            <textarea id="details" name="details" placeholder="Enter any other details..."></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+
+    <div class="floating-btn-group">
+    <button class="floating-btn" onclick="location.href='index.html'" title="Home">
+        <i class="fa-solid fa-house"></i>
+    </button>
+    <button class="floating-btn" onclick="location.href='script.html'" title="Script">
+        <i class="fa-solid fa-scroll"></i>
+    </button>
+    <button class="floating-btn" onclick="location.href='chat.html'" title="Chat">
+        <i class="fa-solid fa-comments"></i>
+    </button>
+</div>
+
+    <script>
+        const form = document.getElementById('guideForm');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if(form.checkValidity()) {
+                alert('가이드 공고가 성공적으로 제출되었습니다.');
+                form.reset();
+            } else {
+                alert('필수 항목을 모두 작성해주세요.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traveler | Travel & Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f6fb;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003580;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .logo:hover {
+            color: #ffb700;
+        }
+        .chat-container {
+            display: flex;
+            height: calc(100vh - 70px);
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-top: 32px;
+        }
+        .chat-list {
+            width: 20%;
+            min-width: 200px;
+            background: #f7fafc;
+            border-right: 1px solid #e0e6ed;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow-y: auto;
+        }
+        .chat-list-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #003580;
+            padding: 18px 18px 10px 18px;
+            border-bottom: 1px solid #e0e6ed;
+            background: #fff;
+        }
+        .chat-list-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f6fb;
+        }
+        .chat-list-item:hover, .chat-list-item.active {
+            background: #eaf4ff;
+        }
+        .chat-list-photo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #eee;
+            border: 2px solid #ffb700;
+        }
+        .chat-list-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-list-name {
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #003580;
+        }
+        .chat-list-desc {
+            font-size: 0.92rem;
+            color: #888;
+            margin-top: 2px;
+        }
+        .chat-main {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            background: #f0f6fb;
+            position: relative;
+        }
+        .chat-header {
+            background: #fff;
+            padding: 18px 28px;
+            border-bottom: 1px solid #e0e6ed;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .chat-header-photo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffb700;
+        }
+        .chat-header-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header-name {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #003580;
+        }
+        .chat-header-desc {
+            font-size: 0.97rem;
+            color: #888;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 28px 32px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .message-row.me {
+            justify-content: flex-end;
+        }
+        .message-bubble {
+            max-width: 60%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 1.02rem;
+            background: #fff;
+            color: #003580;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            position: relative;
+        }
+        .message-row.me .message-bubble {
+            background: #ffb700;
+            color: #fff;
+            border-bottom-right-radius: 6px;
+        }
+        .message-row.you .message-bubble {
+            background: #fff;
+            color: #003580;
+            border-bottom-left-radius: 6px;
+        }
+        .chat-input-area {
+            background: #fff;
+            padding: 18px 28px;
+            border-top: 1px solid #e0e6ed;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #e0e6ed;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .chat-input:focus {
+            border: 1.5px solid #ffb700;
+        }
+        .chat-send-btn {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .chat-send-btn:hover {
+            background: #c0392b;
+        }
+        @media (max-width: 900px) {
+            .chat-container {
+                max-width: 100vw;
+                border-radius: 0;
+            }
+            .chat-list {
+                min-width: 120px;
+            }
+        }
+        @media (max-width: 600px) {
+            .chat-container {
+                flex-direction: column;
+                height: 100vh;
+                margin-top: 0;
+            }
+            .chat-list {
+                width: 100vw;
+                min-width: unset;
+                height: 120px;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid #e0e6ed;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+            .chat-list-title {
+                display: none;
+            }
+            .chat-list-item {
+                flex-direction: column;
+                align-items: center;
+                min-width: 100px;
+                border-bottom: none;
+                border-right: 1px solid #f0f6fb;
+                padding: 10px 6px;
+            }
+            .chat-main {
+                width: 100vw;
+                height: calc(100vh - 120px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo" onclick="location.href='index.html'" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+    <img src="logo.png" alt="Logo" style="width: 32px; height: 32px;">
+    <span>Traveler</span>
+</div>
+        </div>
+    </div>
+    <div class="chat-container">
+        <!-- Left: Trip Concepts List -->
+        <div class="chat-list">
+            <div class="chat-list-title">여행 컨셉</div>
+            <div class="chat-list-item active" onclick="selectChat(0)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">서울 야경 투어</span>
+                    <span class="chat-list-desc">한강, 남산타워</span>
+                </div>
+            </div>
+            <div class="chat-list-item" onclick="selectChat(1)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Busan">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">부산 해변 산책</span>
+                    <span class="chat-list-desc">광안리, 해운대</span>
+                </div>
+            </div>
+            <div class="chat-list-item" onclick="selectChat(2)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Ho Chi Minh">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">호치민 맛집 탐방</span>
+                    <span class="chat-list-desc">로컬 푸드</span>
+                </div>
+            </div>
+            <div class="chat-list-item" onclick="selectChat(3)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" alt="Da Nang">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">다낭 힐링 여행</span>
+                    <span class="chat-list-desc">바나힐, 미케비치</span>
+                </div>
+            </div>
+        </div>
+        <!-- Right: Chat Area -->
+        <div class="chat-main">
+            <div class="chat-header" id="chat-header">
+                <img class="chat-header-photo" id="chat-header-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
+                <div class="chat-header-info">
+                    <span class="chat-header-name" id="chat-header-name">서울 야경 투어</span>
+                    <span class="chat-header-desc" id="chat-header-desc">한강, 남산타워</span>
+                </div>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message-row you">
+                    <div class="message-bubble">안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다.</div>
+                </div>
+                <div class="message-row me">
+                    <div class="message-bubble">안녕하세요! 투어 일정이 궁금합니다.</div>
+                </div>
+                <div class="message-row you">
+                    <div class="message-bubble">매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?</div>
+                </div>
+            </div>
+            <form class="chat-input-area" id="chat-form" autocomplete="off" onsubmit="return sendMessage();">
+                <input class="chat-input" id="chat-input" type="text" placeholder="메시지를 입력하세요..." />
+                <button class="chat-send-btn" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // 채팅 목록 데이터
+        const chatList = [
+            {
+                name: "서울 야경 투어",
+                desc: "한강, 남산타워",
+                photo: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다." },
+                    { from: "me", text: "안녕하세요! 투어 일정이 궁금합니다." },
+                    { from: "you", text: "매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?" }
+                ]
+            },
+            {
+                name: "부산 해변 산책",
+                desc: "광안리, 해운대",
+                photo: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "안녕하세요! 부산 해변 산책에 문의주셔서 감사합니다." },
+                    { from: "me", text: "해변 산책은 몇 시간 정도 소요되나요?" },
+                    { from: "you", text: "약 2시간 정도 소요됩니다." }
+                ]
+            },
+            {
+                name: "호치민 맛집 탐방",
+                desc: "로컬 푸드",
+                photo: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "호치민 맛집 탐방에 관심 가져주셔서 감사합니다!" },
+                    { from: "me", text: "추천 음식이 있나요?" },
+                    { from: "you", text: "분짜, 쌀국수, 반미를 추천드립니다." }
+                ]
+            },
+            {
+                name: "다낭 힐링 여행",
+                desc: "바나힐, 미케비치",
+                photo: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "다낭 힐링 여행에 문의주셔서 감사합니다." },
+                    { from: "me", text: "바나힐 입장권이 포함되어 있나요?" },
+                    { from: "you", text: "네, 투어 비용에 포함되어 있습니다." }
+                ]
+            }
+        ];
+
+        let currentChat = 0;
+
+        function renderChat(index) {
+            // 좌측 active 처리
+            document.querySelectorAll('.chat-list-item').forEach((el, idx) => {
+                if(idx === index) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+            // 헤더 변경
+            document.getElementById('chat-header-photo').src = chatList[index].photo;
+            document.getElementById('chat-header-name').textContent = chatList[index].name;
+            document.getElementById('chat-header-desc').textContent = chatList[index].desc;
+            // 메시지 렌더링
+            const messagesDiv = document.getElementById('chat-messages');
+            messagesDiv.innerHTML = '';
+            chatList[index].messages.forEach(msg => {
+                const row = document.createElement('div');
+                row.className = 'message-row ' + msg.from;
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = msg.text;
+                row.appendChild(bubble);
+                messagesDiv.appendChild(row);
+            });
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function selectChat(index) {
+            currentChat = index;
+            renderChat(index);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(!text) return false;
+            chatList[currentChat].messages.push({ from: "me", text });
+            renderChat(currentChat);
+            input.value = '';
+            input.focus();
+            return false;
+        }
+
+        // 최초 렌더링
+        renderChat(0);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅 | Travel & Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f6fb;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003580;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .logo:hover {
+            color: #ffb700;
+        }
+        .chat-container {
+            display: flex;
+            height: calc(100vh - 70px);
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-top: 32px;
+        }
+        .chat-list {
+            width: 20%;
+            min-width: 200px;
+            background: #f7fafc;
+            border-right: 1px solid #e0e6ed;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow-y: auto;
+        }
+        .chat-list-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #003580;
+            padding: 18px 18px 10px 18px;
+            border-bottom: 1px solid #e0e6ed;
+            background: #fff;
+        }
+        .chat-list-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f6fb;
+        }
+        .chat-list-item:hover, .chat-list-item.active {
+            background: #eaf4ff;
+        }
+        .chat-list-photo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #eee;
+            border: 2px solid #ffb700;
+        }
+        .chat-list-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-list-name {
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #003580;
+        }
+        .chat-list-desc {
+            font-size: 0.92rem;
+            color: #888;
+            margin-top: 2px;
+        }
+        .chat-main {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            background: #f0f6fb;
+            position: relative;
+        }
+        .chat-header {
+            background: #fff;
+            padding: 18px 28px;
+            border-bottom: 1px solid #e0e6ed;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .chat-header-photo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffb700;
+        }
+        .chat-header-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header-name {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #003580;
+        }
+        .chat-header-desc {
+            font-size: 0.97rem;
+            color: #888;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 28px 32px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .message-row.me {
+            justify-content: flex-end;
+        }
+        .message-bubble {
+            max-width: 60%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 1.02rem;
+            background: #fff;
+            color: #003580;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            position: relative;
+        }
+        .message-row.me .message-bubble {
+            background: #ffb700;
+            color: #fff;
+            border-bottom-right-radius: 6px;
+        }
+        .message-row.you .message-bubble {
+            background: #fff;
+            color: #003580;
+            border-bottom-left-radius: 6px;
+        }
+        .chat-input-area {
+            background: #fff;
+            padding: 18px 28px;
+            border-top: 1px solid #e0e6ed;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #e0e6ed;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .chat-input:focus {
+            border: 1.5px solid #ffb700;
+        }
+        .chat-send-btn {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .chat-send-btn:hover {
+            background: #c0392b;
+        }
+        @media (max-width: 900px) {
+            .chat-container {
+                max-width: 100vw;
+                border-radius: 0;
+            }
+            .chat-list {
+                min-width: 120px;
+            }
+        }
+        @media (max-width: 600px) {
+            .chat-container {
+                flex-direction: column;
+                height: 100vh;
+                margin-top: 0;
+            }
+            .chat-list {
+                width: 100vw;
+                min-width: unset;
+                height: 120px;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid #e0e6ed;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+            .chat-list-title {
+                display: none;
+            }
+            .chat-list-item {
+                flex-direction: column;
+                align-items: center;
+                min-width: 100px;
+                border-bottom: none;
+                border-right: 1px solid #f0f6fb;
+                padding: 10px 6px;
+            }
+            .chat-main {
+                width: 100vw;
+                height: calc(100vh - 120px);
+            }
+        }
+        .floating-btn-group {
+  position: fixed;
+  right: 36px;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 100;
+}
+
+.floating-btn {
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  width: 54px;
+  height: 54px;
+  font-size: 2rem;
+  color: #003580;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.floating-btn:hover {
+  background: #ffb700;
+  color: #fff;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo" onclick="location.href='index.html'">
+                <img src="logo.png" alt="Agoda Logo" style="height: 72px; vertical-align: middle; margin-right: 8px;">
+                Traveler
+            </div>
+        </div>
+    </div>
+    <div class="chat-container">
+        <!-- Left: Trip Concepts List -->
+        <div class="chat-list">
+            <div class="chat-list-title">여행 컨셉</div>
+            <div class="chat-list-item active" onclick="selectChat(0)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">서울 야경 투어</span>
+                    <span class="chat-list-desc">한강, 남산타워</span>
+                </div>
+            </div>
+            <div class="chat-list-item" onclick="selectChat(1)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Busan">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">부산 해변 산책</span>
+                    <span class="chat-list-desc">광안리, 해운대</span>
+                </div>
+            </div>
+            <div class="chat-list-item" onclick="selectChat(2)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Ho Chi Minh">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">호치민 맛집 탐방</span>
+                    <span class="chat-list-desc">로컬 푸드</span>
+                </div>
+            </div>
+            <div class="chat-list-item" onclick="selectChat(3)">
+                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" alt="Da Nang">
+                <div class="chat-list-info">
+                    <span class="chat-list-name">다낭 힐링 여행</span>
+                    <span class="chat-list-desc">바나힐, 미케비치</span>
+                </div>
+            </div>
+        </div>
+        <!-- Right: Chat Area -->
+        <div class="chat-main">
+            <div class="chat-header" id="chat-header">
+                <img class="chat-header-photo" id="chat-header-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
+                <div class="chat-header-info">
+                    <span class="chat-header-name" id="chat-header-name">서울 야경 투어</span>
+                    <span class="chat-header-desc" id="chat-header-desc">한강, 남산타워</span>
+                </div>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message-row you">
+                    <div class="message-bubble">안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다.</div>
+                </div>
+                <div class="message-row me">
+                    <div class="message-bubble">안녕하세요! 투어 일정이 궁금합니다.</div>
+                </div>
+                <div class="message-row you">
+                    <div class="message-bubble">매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?</div>
+                </div>
+            </div>
+            <form class="chat-input-area" id="chat-form" autocomplete="off" onsubmit="return sendMessage();">
+                <input class="chat-input" id="chat-input" type="text" placeholder="메시지를 입력하세요..." />
+                <button class="chat-send-btn" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // 채팅 목록 데이터
+        const chatList = [
+            {
+                name: "서울 야경 투어",
+                desc: "한강, 남산타워",
+                photo: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다." },
+                    { from: "me", text: "안녕하세요! 투어 일정이 궁금합니다." },
+                    { from: "you", text: "매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?" }
+                ]
+            },
+            {
+                name: "부산 해변 산책",
+                desc: "광안리, 해운대",
+                photo: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "안녕하세요! 부산 해변 산책에 문의주셔서 감사합니다." },
+                    { from: "me", text: "해변 산책은 몇 시간 정도 소요되나요?" },
+                    { from: "you", text: "약 2시간 정도 소요됩니다." }
+                ]
+            },
+            {
+                name: "호치민 맛집 탐방",
+                desc: "로컬 푸드",
+                photo: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "호치민 맛집 탐방에 관심 가져주셔서 감사합니다!" },
+                    { from: "me", text: "추천 음식이 있나요?" },
+                    { from: "you", text: "분짜, 쌀국수, 반미를 추천드립니다." }
+                ]
+            },
+            {
+                name: "다낭 힐링 여행",
+                desc: "바나힐, 미케비치",
+                photo: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+                messages: [
+                    { from: "you", text: "다낭 힐링 여행에 문의주셔서 감사합니다." },
+                    { from: "me", text: "바나힐 입장권이 포함되어 있나요?" },
+                    { from: "you", text: "네, 투어 비용에 포함되어 있습니다." }
+                ]
+            }
+        ];
+
+        let currentChat = 0;
+
+        function renderChat(index) {
+            // 좌측 active 처리
+            document.querySelectorAll('.chat-list-item').forEach((el, idx) => {
+                if(idx === index) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+            // 헤더 변경
+            document.getElementById('chat-header-photo').src = chatList[index].photo;
+            document.getElementById('chat-header-name').textContent = chatList[index].name;
+            document.getElementById('chat-header-desc').textContent = chatList[index].desc;
+            // 메시지 렌더링
+            const messagesDiv = document.getElementById('chat-messages');
+            messagesDiv.innerHTML = '';
+            chatList[index].messages.forEach(msg => {
+                const row = document.createElement('div');
+                row.className = 'message-row ' + msg.from;
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = msg.text;
+                row.appendChild(bubble);
+                messagesDiv.appendChild(row);
+            });
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function selectChat(index) {
+            currentChat = index;
+            renderChat(index);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(!text) return false;
+            chatList[currentChat].messages.push({ from: "me", text });
+            renderChat(currentChat);
+            input.value = '';
+            input.focus();
+            return false;
+        }
+
+        // 최초 렌더링
+        renderChat(0);
+    </script>
+    <div class="floating-btn-group">
+  <button class="floating-btn" onclick="location.href='index.html'">
+    <i class="fa-solid fa-house"></i>
+  </button>
+  <button class="floating-btn" onclick="location.href='script.html'">
+    <i class="fa-solid fa-scroll"></i>
+  </button>
+  <button class="floating-btn" onclick="document.getElementById('chat-input').focus();">
+    <i class="fa-solid fa-comments"></i>
+  </button>
+</div>
+</body>
+</html>

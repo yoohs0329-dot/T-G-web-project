@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>T&G — 여행자는 더 가볍게, 가이드는 더 자유롭게</title>
+  <meta name="description" content="로컬과 여행자가 친구처럼 만나는 곳, T&G. Traveler와 Guide 중 역할을 선택해 시작하세요.">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --bg-top:#eaf2ff; --bg-1:#f3f8fd; --bg-2:#ffffff;
+      --ink:#0b254b; --muted:#5c6b85; --brand:#003580; --brand-2:#1e6bd6; --accent:#ffb700;
+      --card:#ffffff; --line:rgba(0,0,0,.08); --shadow:0 12px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink);
+      font-family:"Pretendard","Noto Sans KR",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:
+        radial-gradient(120% 90% at 50% -25%, rgba(0,53,128,.16), transparent 70%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-1) 35%, var(--bg-2) 100%);
+    }
+
+    /* header */
+    .hd{position:sticky; top:0; z-index:50; backdrop-filter: blur(6px); background:rgba(255,255,255,.95); border-bottom:1px solid var(--line);}
+    .row{max-width:1180px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between;}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--brand); font-weight:900; letter-spacing:.2px}
+    .brand img{height:40px; width:auto}
+    .nav{display:flex; gap:18px; align-items:center}
+    .nav a{color:var(--muted); text-decoration:none; font-weight:700}
+    .nav a:hover{color:var(--brand)}
+    .login-btn{padding:8px 12px; border:1px solid var(--line); border-radius:10px; color:var(--brand); background:#fff;}
+    .login-btn:hover{background:#eef3ff; color:var(--brand)}
+
+    /* hero */
+    .hero{max-width:1180px; margin:0 auto; padding:76px 20px 34px; display:grid; gap:14px; text-align:center}
+    .chip{display:inline-flex; gap:10px; align-items:center; margin:0 auto; padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:#e9f2fb; color:var(--brand-2); font-weight:800; font-size:.95rem}
+    .title{font-size:clamp(30px,5vw,56px); line-height:1.06; margin:8px auto 0; font-weight:900; background:linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 85%); -webkit-background-clip:text; background-clip:text; color:transparent;}
+    .slogan{margin-top:6px; color:var(--brand-2); font-weight:800; letter-spacing:.6px}
+    .lead{margin:10px auto 0; color:var(--muted); font-size:clamp(15px,2.2vw,18px); max-width:720px; line-height:1.6; white-space:pre-line}
+
+    .cta{display:flex; gap:12px; justify-content:center; margin:22px auto 0}
+    .btn{display:inline-flex; gap:10px; align-items:center; padding:13px 18px; border-radius:12px; text-decoration:none; font-weight:800; letter-spacing:.2px; transition:transform .2s ease, box-shadow .2s ease, background .2s ease}
+    .btn.primary{background:linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 100%); color:#fff; box-shadow:0 10px 26px rgba(0,53,128,.22)}
+    .btn.primary:hover{transform:translateY(-1px)}
+    .btn.ghost{background:#fff; border:1px solid var(--line); color:var(--brand)}
+    .btn.ghost:hover{background:#f1f5ff; transform:translateY(-1px)}
+
+    /* marquee */
+    .marq-wrap{overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:32px; background:#fff; border-radius:14px}
+    .marq{display:flex; gap:36px; white-space:nowrap; padding:12px 10px; color:var(--brand-2); opacity:.9; animation:scroll 30s linear infinite}
+    @keyframes scroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+
+    /* feature cards */
+    .panel{max-width:1180px; margin:24px auto 0; padding:24px 20px 6px}
+    .grid{display:grid; gap:16px; grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    .card{border:1px solid var(--line); border-radius:18px; background:var(--card); box-shadow:var(--shadow); padding:22px; display:flex; gap:14px; align-items:flex-start}
+    .ic{font-size:1.4rem; color:var(--accent)}
+    .card h3{margin:2px 0 4px; font-size:1.1rem}
+    .card p{margin:0; color:var(--muted); font-size:.98rem; line-height:1.65}
+
+    /* role tiles */
+    .roles{display:grid; gap:16px; grid-template-columns:repeat(2, minmax(0,1fr)); margin-top:18px}
+    @media (max-width:900px){.roles{grid-template-columns:1fr}}
+    .tile{position:relative; border:1px solid var(--line); border-radius:20px; padding:26px; overflow:hidden; background:#fff; box-shadow:var(--shadow); transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;}
+    .tile:hover{transform:translateY(-2px); border-color:rgba(0,53,128,.28); box-shadow:0 16px 40px rgba(0,0,0,.1)}
+    .tile h4{margin:4px 0 8px; font-size:1.3rem; color:var(--brand)}
+    .tile p{margin:0 0 16px; color:var(--muted)}
+    .tile .go{display:inline-flex; gap:8px; align-items:center; padding:10px 14px; border-radius:10px; background:#e6f0fb; color:var(--brand); text-decoration:none; font-weight:900}
+    .tile .go:hover{background:#d3e6fb}
+
+    /* about / stats */
+    .about{max-width:1100px; margin:56px auto; padding:0 20px; text-align:center}
+    .about h2{margin:0; font-size:clamp(26px,3.4vw,36px); color:var(--brand)}
+    .about p{color:var(--muted); max-width:70ch; margin:12px auto 0; line-height:1.75; white-space:pre-line}
+    .stats{display:grid; gap:16px; grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:20px}
+    @media (max-width:900px){.stats{grid-template-columns:1fr}}
+    .stat{border:1px solid var(--line); border-radius:14px; padding:18px; background:#fff; box-shadow:var(--shadow)}
+    .num{font-size:1.6rem; font-weight:900; color:var(--brand)}
+    .label{color:var(--muted)}
+
+    /* footer */
+    footer{border-top:1px solid var(--line); margin-top:44px; background:#f6f9fe}
+    .ft{max-width:1180px; margin:0 auto; padding:22px 20px; text-align:center; color:var(--muted)}
+    .ft .links{display:flex; gap:18px; justify-content:center; margin:10px 0 6px}
+    .ft a{color:var(--muted); text-decoration:none}
+    .ft a:hover{color:var(--brand)}
+  </style>
+</head>
+<body>
+  <!-- header -->
+  <header class="hd">
+    <div class="row">
+      <a href="index.html" class="brand" aria-label="T&G 홈">
+        <img src="logo.png" alt="T&G 로고">
+        <span>T&G</span>
+      </a>
+      <!-- 이 영역은 아래 스크립트에서 로그인 상태에 따라 동적으로 바뀝니다 -->
+      <nav class="nav" aria-label="주요 메뉴" id="top-nav">
+        <a href="login.html" class="login-btn">로그인</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="hero">
+    <div class="chip"><i class="fa-solid fa-compass"></i> 여행의 시작, 연결의 플랫폼</div>
+    <h1 class="title">여행자는 더 가볍게,<br>가이드는 더 자유롭게</h1>
+    <div class="slogan">Anyone · Anywhere · Anytime</div>
+    <p class="lead">로컬과 여행자가 친구처럼 연결되는 곳.  
+당신의 일상이 누군가의 여행이 됩니다.</p>
+
+    <div class="cta">
+      <a href="traveler.html" class="btn primary"><i class="fa-solid fa-person-hiking"></i> Traveler로 시작</a>
+      <a href="guide_index.html" class="btn ghost"><i class="fa-solid fa-user-tie"></i> Guide 등록</a>
+    </div>
+
+    <div class="marq-wrap" aria-hidden="true">
+      <div class="marq">
+        <span><i class="fa-solid fa-mug-hot"></i> 동네 카페 투어</span>
+        <span><i class="fa-solid fa-camera"></i> 야간 사진 산책</span>
+        <span><i class="fa-solid fa-bowl-food"></i> 숨은 맛집 탐방</span>
+        <span><i class="fa-solid fa-masks-theater"></i> 로컬 문화 체험</span>
+        <span><i class="fa-solid fa-route"></i> 골목 길잡이</span>
+        <span><i class="fa-solid fa-mug-hot"></i> 동네 카페 투어</span>
+        <span><i class="fa-solid fa-camera"></i> 야간 사진 산책</span>
+        <span><i class="fa-solid fa-bowl-food"></i> 숨은 맛집 탐방</span>
+        <span><i class="fa-solid fa-masks-theater"></i> 로컬 문화 체험</span>
+        <span><i class="fa-solid fa-route"></i> 골목 길잡이</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- features -->
+  <section class="panel" id="features">
+    <div class="grid">
+      <div class="card">
+        <i class="ic fa-solid fa-wand-magic-sparkles"></i>
+        <div>
+          <h3>친구 같은 연결</h3>
+          <p>딱딱한 패키지 대신, 취향이 맞는 로컬과 대화하며 일정을 함께 만들어요.</p>
+        </div>
+      </div>
+      <div class="card">
+        <i class="ic fa-solid fa-language"></i>
+        <div>
+          <h3>언어·국적 제한 없음</h3>
+          <p>누구나 여행자이자 가이드가 될 수 있어요.  
+언어 배지로 소통 걱정 없이.</p>
+        </div>
+      </div>
+      <div class="card">
+        <i class="ic fa-solid fa-shield-heart"></i>
+        <div>
+          <h3>신뢰와 안전</h3>
+          <p>신분/언어 인증, 후기, 신고 체계를 통해 안심하고 만남을 이어가요.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- role tiles -->
+    <div class="roles" id="roles" style="margin-top:22px">
+      <div class="tile">
+        <h4><i class="fa-solid fa-person-hiking"></i> Traveler</h4>
+        <p>동네 산책·맛집 투어·사진 탐방 등 로컬이 제안한 체험을 탐색하고 참여하세요.</p>
+        <a class="go" href="traveler.html">바로 시작 <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="tile">
+        <h4><i class="fa-solid fa-user-tie"></i> Guide</h4>
+        <p>내가 사랑하는 지역을 소개하고 수익을 만들어 보세요.  
+언제든 무료로 등록!</p>
+        <a class="go" href="guide_index.html">체험 등록 <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section class="about" id="about">
+    <h2>About T&G</h2>
+    <p>T&G(Traveler & Guide)는 국적과 자격에 상관없이 누구나 로컬 경험을 올리고,  
+누구나 그 경험을 선택해 함께할 수 있는 글로벌 여행 매칭 플랫폼입니다.</p>
+    <div class="stats" aria-label="서비스 하이라이트">
+      <div class="stat">
+        <div class="num">10K+</div>
+        <div class="label">연결된 여행자</div>
+      </div>
+      <div class="stat">
+        <div class="num">30+</div>
+        <div class="label">활동 국가</div>
+      </div>
+      <div class="stat">
+        <div class="num">4.9/5</div>
+        <div class="label">평균 만족도</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer id="contact">
+    <div class="ft">
+      <div class="links" style="margin-bottom:10px">
+        <a href="mailto:yoohs0329@hanyang.ac.kr"><i class="fa-solid fa-envelope"></i> yoohs0329@hanyang.ac.kr</a>
+      </div>
+      <div class="links" aria-label="Policies">
+        <a href="#">FAQ</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div style="margin-top:8px">© 2025 T&G. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- 로그인 상태에 따라 네비 자동 렌더링 -->
+  <script>
+    async function renderAuthNav(){
+      const nav = document.getElementById('top-nav');
+      if(!nav) return;
+      try{
+        const res = await fetch('/api/auth/me', { credentials: 'include' });
+        if(!res.ok) throw 0;
+        const { user } = await res.json();
+
+        // 로그인 상태: 이름/역할 표시 + 로그아웃
+        nav.innerHTML = `
+          <span style="color:#5c6b85">안녕하세요, <b>${user.name}</b>님</span>
+          <a href="${user.role === 'guide' ? 'guide_index.html' : 'traveler.html'}">
+            ${user.role === 'guide' ? '가이드 대시보드' : '여행 시작'}
+          </a>
+          <a href="#" onclick="event.preventDefault(); logout()">로그아웃</a>
+        `;
+      }catch{
+        // 비로그인 상태: 로그인 + 섹션 링크
+        nav.innerHTML = `
+          <a href="login.html" class="login-btn">로그인</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        `;
+      }
+    }
+    async function logout(){
+      await fetch('/api/auth/logout', { method:'POST', credentials:'include' });
+      location.reload();
+    }
+    renderAuthNav();
+  </script>
+</body>
+</html>

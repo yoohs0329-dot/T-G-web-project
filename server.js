@@ -1,15 +1,21 @@
- const express = require('express');
- const app = express();
+// server.js (정적 웹 서버 버전)
 
- app.listen(8080, function(){
-    console.log('listening on 8080')
- });
+const express = require('express');
+const path = require('path');
+const app = express();
 
- app.get('/main', function(요청, 응답){
-    응답.send('T&G입니다! 반갑습니다.');
- });
+// public 폴더 안의 정적 파일 제공 (html, css, js, 이미지 등)
+app.use(express.static(path.join(__dirname, 'public')));
 
+// 기본 루트("/") 요청 시 index.html 반환
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
- app.get('/m', function(요청, 응답){
-    응답.sendFile(__dirname + '/index.html');
- });
+// 서버 실행
+const PORT = 8080;
+app.listen(PORT, () => {
+  console.log(`✅ Server running at: http://localhost:${PORT}`);
+});
+
+// server.js (정적 웹 서버 버전)
