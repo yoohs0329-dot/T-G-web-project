@@ -100,10 +100,9 @@
       </a>
       <!-- 이 영역은 아래 스크립트에서 로그인 상태에 따라 동적으로 바뀝니다 -->
       <nav class="nav" aria-label="주요 메뉴" id="top-nav">
-        <a href="login.html" class="login-btn">로그인</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+  <a href="login.html" class="login-btn">로그인</a>
+</nav>
+
     </div>
   </header>
 
@@ -234,13 +233,10 @@
           <a href="#" onclick="event.preventDefault(); logout()">로그아웃</a>
         `;
       }catch{
-        // 비로그인 상태: 로그인 + 섹션 링크
-        nav.innerHTML = `
-          <a href="login.html" class="login-btn">로그인</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        `;
-      }
+  // 비로그인 상태: 로그인만 표시
+  nav.innerHTML = `<a href="login.html" class="login-btn">로그인</a>`;
+}
+
     }
     async function logout(){
       await fetch('/api/auth/logout', { method:'POST', credentials:'include' });
