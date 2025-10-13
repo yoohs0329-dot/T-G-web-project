@@ -1,198 +1,248 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <title>Guide Announcement</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            background: #f0f6fb;
-            color: #003580;
-        }
-        .header {
-            background: #fff;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 24px;
-        }
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #003580;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .logo:hover {
-            color: #ffb700;
-        }
-        .banner {
-            background: #003580;
-            color: white;
-            padding: 24px 32px;
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-        main {
-            max-width: 600px;
-            background: #fff;
-            margin: 32px auto;
-            padding: 24px 32px;
-            border-radius: 12px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-        }
-        form label {
-            display: block;
-            margin-top: 18px;
-            font-weight: 600;
-        }
-        input, select, textarea {
-            width: 100%;
-            margin-top: 6px;
-            padding: 10px 12px;
-            border: 1px solid #e0e6ed;
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            color: #003580;
-            font-weight: 500;
-        }
-        select[multiple] {
-            height: 120px;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        button[type=submit] {
-            margin-top: 28px;
-            width: 100%;
-            background: #ffb700;
-            border: none;
-            padding: 14px 0;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        button[type=submit]:hover {
-            background: #e6a800;
-        }
-        /* Floating button group */
-        .floating-btn-group {
-            position: fixed;
-            right: 36px;
-            bottom: 36px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            z-index: 100;
-        }
-        .floating-btn {
-            background: #fff;
-            border: none;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            width: 54px;
-            height: 54px;
-            font-size: 2rem;
-            color: #003580;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-        }
-        .floating-btn:hover {
-            background: #ffb700;
-            color: #fff;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>T&G — Guide Announcement</title>
+  <meta name="description" content="T&G 가이드 공고 작성 페이지">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg-top:#eaf2ff; --bg-1:#f3f8fd; --bg-2:#ffffff;
+      --ink:#0b254b; --muted:#5c6b85; --brand:#003580; --brand-2:#1e6bd6; --accent:#ffb700;
+      --card:#ffffff; --line:rgba(0,0,0,.08); --shadow:0 12px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink);
+      font-family:"Pretendard","Noto Sans KR",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:
+        radial-gradient(120% 90% at 50% -25%, rgba(0,53,128,.16), transparent 70%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-1) 35%, var(--bg-2) 100%);
+    }
+
+    /* header */
+    .hd{position:sticky; top:0; z-index:50; backdrop-filter: blur(6px); background:rgba(255,255,255,.95); border-bottom:1px solid var(--line);}
+    .row{max-width:1180px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between;}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--brand); font-weight:900; letter-spacing:.2px}
+    .brand img{height:40px; width:auto}
+    .nav{display:flex; gap:18px; align-items:center}
+    .nav a{color:var(--muted); text-decoration:none; font-weight:700}
+    .nav a:hover{color:var(--brand)}
+
+    /* 프로필/드롭다운 (로그인 버튼 대체) */
+    .profile-area{position:relative; display:flex; align-items:center; gap:12px;}
+    .profile{display:flex; align-items:center; gap:10px; background:#fff; border:1px solid var(--line); border-radius:999px; padding:6px 10px; transition:background .2s}
+    .profile:hover{background:#f3f7ff}
+    .avatar{width:32px; height:32px; border-radius:50%; object-fit:cover}
+    .menu-btn{border:none; background:none; color:var(--ink); font-size:1.1rem; width:32px; height:32px; border-radius:50%; cursor:pointer}
+    .menu-btn:focus{outline:2px solid #cfe3ff}
+    .menu-dropdown{position:absolute; top:52px; right:0; background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.12); width:240px; padding:10px 0; display:none; flex-direction:column; z-index:100}
+    .menu-dropdown a{display:flex; justify-content:space-between; align-items:center; padding:10px 18px; text-decoration:none; color:var(--ink); font-size:.95rem}
+    .menu-dropdown a:hover{background:#f7faff; color:var(--brand)}
+    .menu-dropdown hr{border:none; border-top:1px solid var(--line); margin:6px 0}
+    .badge{background:#ff385c; color:#fff; font-size:.7rem; border-radius:14px; padding:1px 6px; line-height:1.6}
+
+    /* 페이지 헤드 */
+    .pagehead{max-width:1180px; margin:18px auto 0; padding:0 20px; display:flex; align-items:flex-end; justify-content:space-between; gap:16px}
+    .title{margin:6px 0 0; font-size:clamp(22px,3.2vw,30px); font-weight:900; color:var(--brand)}
+    .subtitle{margin:6px 0 0; color:var(--muted)}
+
+    /* 본문 카드 / 폼 */
+    .wrap{max-width:820px; margin:18px auto 40px; padding:0 20px}
+    .card{border:1px solid var(--line); border-radius:18px; background:var(--card); box-shadow:var(--shadow); padding:22px}
+    .f{display:grid; gap:16px}
+    .row{display:grid; gap:8px}
+    label{font-weight:800; color:var(--ink)}
+    input, select, textarea{
+      width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px;
+      font-size:1rem; color:var(--ink); background:#fff;
+    }
+    select[multiple]{min-height:120px}
+    textarea{min-height:100px; resize:vertical}
+
+    .help{font-size:.9rem; color:var(--muted)}
+    .btn{display:inline-flex; gap:10px; align-items:center; justify-content:center; width:100%;
+      padding:14px 16px; border-radius:12px; text-decoration:none; font-weight:900; letter-spacing:.2px;
+      border:none; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, background .2s ease}
+    .btn.primary{background:linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 100%); color:#fff; box-shadow:0 10px 26px rgba(0,53,128,.22)}
+    .btn.primary:hover{transform:translateY(-1px)}
+    .msg{min-height:18px; margin-top:6px; color:#e74c3c}
+    .ok{color:#1abc9c}
+
+    /* 플로팅 버튼 */
+    .floating-btn-group{position:fixed; right:26px; bottom:26px; display:flex; flex-direction:column; gap:12px; z-index:60}
+    .floating-btn{
+      background:#fff; border:1px solid var(--line); border-radius:50%; width:52px; height:52px;
+      display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow);
+      transition:transform .2s ease, background .2s ease
+    }
+    .floating-btn:hover{transform:translateY(-2px); background:#f1f5ff}
+
+    /* 반응형 */
+    @media (max-width:600px){
+      .row{gap:6px}
+      input, select, textarea{font-size:.98rem}
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="logo" onclick="location.href='index.html'">
-                <i class="fa-solid fa-hotel"></i> Traveler
-            </div>
+  <!-- header -->
+  <header class="hd">
+    <div class="row">
+      <a href="index.html" class="brand" aria-label="T&G 홈">
+        <img src="images/logo.png" alt="T&G 로고">
+        <span>T&G</span>
+      </a>
+      <nav class="nav" aria-label="메뉴">
+        <!-- 로그인 버튼 대신 프로필/드롭다운 (데모용) -->
+        <div class="profile-area">
+          <div class="profile">
+            <img src="https://i.pravatar.cc/40?img=3" alt="프로필" class="avatar">
+            <button class="menu-btn" aria-label="메뉴 열기" aria-expanded="false">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </div>
+          <div class="menu-dropdown" id="menu-dropdown">
+            <a href="#">위시리스트</a>
+            <a href="#">여행</a>
+            <a href="#">메시지 <span class="badge">1</span></a>
+            <a href="#">프로필</a>
+            <hr>
+            <a href="#">알림 <span class="badge">1</span></a>
+            <a href="#">계정 관리</a>
+            <a href="#">언어 및 통화</a>
+            <a href="#">도움말 센터</a>
+            <hr>
+            <a href="guide_index.html">호스트 하기</a>
+            <a href="#">친구 추천하기</a>
+            <hr>
+            <a href="#" id="logout-link">로그아웃</a>
+          </div>
         </div>
+      </nav>
     </div>
+  </header>
 
-    <div class="banner">
-        GUIDE ANNOUNCEMENT
+  <!-- page head -->
+  <section class="pagehead">
+    <div>
+      <h1 class="title"><i class="fa-solid fa-bullhorn"></i> Guide Announcement</h1>
+      <p class="subtitle">가이드 제안을 등록해 여행자를 기다려보세요.</p>
     </div>
+  </section>
 
-    <main>
-        <form id="guideForm">
-            <label for="date">Date *</label>
-            <input type="date" id="date" name="date" required />
+  <!-- form card -->
+  <main class="wrap">
+    <div class="card" role="region" aria-labelledby="form-title">
+      <form id="guideForm" class="f" novalidate>
+        <div class="row">
+          <label for="date">Date <span class="help">* 필수</span></label>
+          <input type="date" id="date" name="date" required />
+        </div>
 
-            <label for="destination">Destination *</label>
-            <input type="text" id="destination" name="destination" placeholder="Enter travel destination" required />
+        <div class="row">
+          <label for="destination">Destination <span class="help">* 필수</span></label>
+          <input type="text" id="destination" name="destination" placeholder="예: 서울 북촌, 부산 감천문화마을" required />
+        </div>
 
-            <label for="time">Time *</label>
-            <input type="time" id="time" name="time" required />
+        <div class="row">
+          <label for="time">Time <span class="help">* 필수</span></label>
+          <input type="time" id="time" name="time" required />
+        </div>
 
-            <label for="budget">Desired Budget (KRW) *</label>
-            <input type="number" id="budget" name="budget" placeholder="Enter desired budget" min="0" required />
+        <div class="row">
+          <label for="budget">Desired Budget (KRW) <span class="help">* 필수</span></label>
+          <input type="number" id="budget" name="budget" placeholder="예: 30000" min="0" inputmode="numeric" required />
+        </div>
 
-            <label for="languages">Guide Languages *</label>
-            <select id="languages" name="languages" required multiple>
-                <option value="Korean">한국어</option>
-                <option value="English">English</option>
-                <option value="Japanese">日本語</option>
-                <option value="Vietnamese">Tiếng Việt</option>
-                <option value="Chinese">中文</option>
-            </select>
+        <div class="row">
+          <label for="languages">Guide Languages <span class="help">* 복수 선택 가능</span></label>
+          <select id="languages" name="languages" required multiple>
+            <option value="Korean">한국어</option>
+            <option value="English">English</option>
+            <option value="Japanese">日本語</option>
+            <option value="Vietnamese">Tiếng Việt</option>
+            <option value="Chinese">中文</option>
+          </select>
+          <div class="help">Ctrl(Windows)/⌘(Mac) 키를 누른 채 다중 선택</div>
+        </div>
 
-            <label for="details">Other Details</label>
-            <textarea id="details" name="details" placeholder="Enter any other details..."></textarea>
+        <div class="row">
+          <label for="details">Other Details</label>
+          <textarea id="details" name="details" placeholder="진행 코스, 교통/식사 포함 여부 등"></textarea>
+        </div>
 
-            <button type="submit">Submit</button>
-        </form>
-    </main>
+        <button type="submit" class="btn primary"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+        <div id="form-msg" class="msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </main>
 
-    <div class="floating-btn-group">
-    <button class="floating-btn" onclick="location.href='index.html'" title="Home">
-        <i class="fa-solid fa-house"></i>
-    </button>
-    <button class="floating-btn" onclick="location.href='script.html'" title="Script">
-        <i class="fa-solid fa-scroll"></i>
-    </button>
-    <button class="floating-btn" onclick="location.href='chat.html'" title="Chat">
-        <i class="fa-solid fa-comments"></i>
-    </button>
-</div>
+  <!-- floating buttons -->
+  <div class="floating-btn-group" aria-label="빠른 이동">
+    <button class="floating-btn" onclick="location.href='index.html'" title="Home"><i class="fa-solid fa-house"></i></button>
+    <button class="floating-btn" onclick="location.href='script.html'" title="Script"><i class="fa-solid fa-scroll"></i></button>
+    <button class="floating-btn" onclick="location.href='chat.html'" title="Chat"><i class="fa-solid fa-comments"></i></button>
+  </div>
 
-    <script>
-        const form = document.getElementById('guideForm');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            if(form.checkValidity()) {
-                alert('가이드 공고가 성공적으로 제출되었습니다.');
-                form.reset();
-            } else {
-                alert('필수 항목을 모두 작성해주세요.');
-            }
-        });
-    </script>
+  <script>
+    // 드롭다운 토글 (프론트 데모)
+    (function(){
+      const btn = document.querySelector('.menu-btn');
+      const dropdown = document.getElementById('menu-dropdown');
+      if(!btn || !dropdown) return;
+
+      const closeMenu = () => { dropdown.style.display='none'; btn.setAttribute('aria-expanded','false'); };
+      const openMenu  = () => { dropdown.style.display='flex'; btn.setAttribute('aria-expanded','true'); };
+
+      btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const opened = dropdown.style.display==='flex';
+        opened ? closeMenu() : openMenu();
+      });
+      document.addEventListener('click', (e)=>{
+        if(!dropdown.contains(e.target) && !btn.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeMenu(); });
+
+      // 로그아웃(데모)
+      const logout = document.getElementById('logout-link');
+      if(logout){ logout.addEventListener('click', e=>{ e.preventDefault(); alert('로그아웃(데모)'); }); }
+    })();
+
+    // 폼 제출(프론트 검증)
+    (function(){
+      const form = document.getElementById('guideForm');
+      const msg  = document.getElementById('form-msg');
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        msg.textContent = '';
+
+        // 필수 항목 기본 검증
+        if(!form.checkValidity()){
+          msg.textContent = '필수 항목을 모두 정확히 입력해 주세요.';
+          return;
+        }
+
+        // 간단한 추가 체크: 예산 0 이상
+        const budget = Number(document.getElementById('budget').value || 0);
+        if(isNaN(budget) || budget < 0){
+          msg.textContent = '예산은 0 이상의 숫자여야 합니다.';
+          return;
+        }
+
+        // 성공 UX
+        alert('가이드 공고가 성공적으로 제출되었습니다.');
+        form.reset();
+        msg.classList.remove('ok');
+        msg.textContent = '';
+      });
+    })();
+  </script>
 </body>
 </html>
