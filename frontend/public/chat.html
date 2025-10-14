@@ -1,877 +1,529 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traveler | Travel & Guide</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f0f6fb;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .header {
-            background: #fff;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 24px;
-        }
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #003580;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .logo:hover {
-            color: #ffb700;
-        }
-        .chat-container {
-            display: flex;
-            height: calc(100vh - 70px);
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-            overflow: hidden;
-            margin-top: 32px;
-        }
-        .chat-list {
-            width: 20%;
-            min-width: 200px;
-            background: #f7fafc;
-            border-right: 1px solid #e0e6ed;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            overflow-y: auto;
-        }
-        .chat-list-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #003580;
-            padding: 18px 18px 10px 18px;
-            border-bottom: 1px solid #e0e6ed;
-            background: #fff;
-        }
-        .chat-list-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 18px;
-            cursor: pointer;
-            transition: background 0.15s;
-            border-bottom: 1px solid #f0f6fb;
-        }
-        .chat-list-item:hover, .chat-list-item.active {
-            background: #eaf4ff;
-        }
-        .chat-list-photo {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #eee;
-            border: 2px solid #ffb700;
-        }
-        .chat-list-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-list-name {
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: #003580;
-        }
-        .chat-list-desc {
-            font-size: 0.92rem;
-            color: #888;
-            margin-top: 2px;
-        }
-        .chat-main {
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            background: #f0f6fb;
-            position: relative;
-        }
-        .chat-header {
-            background: #fff;
-            padding: 18px 28px;
-            border-bottom: 1px solid #e0e6ed;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .chat-header-photo {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ffb700;
-        }
-        .chat-header-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-header-name {
-            font-size: 1.15rem;
-            font-weight: bold;
-            color: #003580;
-        }
-        .chat-header-desc {
-            font-size: 0.97rem;
-            color: #888;
-        }
-        .chat-messages {
-            flex: 1;
-            padding: 28px 32px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-        .message-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-        }
-        .message-row.me {
-            justify-content: flex-end;
-        }
-        .message-bubble {
-            max-width: 60%;
-            padding: 12px 18px;
-            border-radius: 18px;
-            font-size: 1.02rem;
-            background: #fff;
-            color: #003580;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            position: relative;
-        }
-        .message-row.me .message-bubble {
-            background: #ffb700;
-            color: #fff;
-            border-bottom-right-radius: 6px;
-        }
-        .message-row.you .message-bubble {
-            background: #fff;
-            color: #003580;
-            border-bottom-left-radius: 6px;
-        }
-        .chat-input-area {
-            background: #fff;
-            padding: 18px 28px;
-            border-top: 1px solid #e0e6ed;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #e0e6ed;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s;
-        }
-        .chat-input:focus {
-            border: 1.5px solid #ffb700;
-        }
-        .chat-send-btn {
-            background: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .chat-send-btn:hover {
-            background: #c0392b;
-        }
-        @media (max-width: 900px) {
-            .chat-container {
-                max-width: 100vw;
-                border-radius: 0;
-            }
-            .chat-list {
-                min-width: 120px;
-            }
-        }
-        @media (max-width: 600px) {
-            .chat-container {
-                flex-direction: column;
-                height: 100vh;
-                margin-top: 0;
-            }
-            .chat-list {
-                width: 100vw;
-                min-width: unset;
-                height: 120px;
-                flex-direction: row;
-                border-right: none;
-                border-bottom: 1px solid #e0e6ed;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-            .chat-list-title {
-                display: none;
-            }
-            .chat-list-item {
-                flex-direction: column;
-                align-items: center;
-                min-width: 100px;
-                border-bottom: none;
-                border-right: 1px solid #f0f6fb;
-                padding: 10px 6px;
-            }
-            .chat-main {
-                width: 100vw;
-                height: calc(100vh - 120px);
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>T&G — 채팅</title>
+  <meta name="description" content="T&G 채팅">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --bg-top:#eaf2ff; --bg-1:#f3f8fd; --bg-2:#ffffff;
+      --ink:#111827; --ink-2:#334155; --muted:#6b7280;
+      --brand:#106466; --brand-2:#0e7c86; --accent:#6D4DE6;
+      --card:#ffffff;
+      --line:rgba(17,24,39,.10); --line-2:rgba(17,24,39,.14);
+      --shadow:0 2px 14px rgba(17,24,39,.06); --shadow-h:0 8px 28px rgba(17,24,39,.10);
+      --focus:#6D4DE6;
+      --radius:10px; --radius-lg:14px;
+      --success:#16a34a;
+      --bubble-me:#0e7c86; --bubble-you:#ffffff;
+      --bubble-me-text:#ffffff; --bubble-you-text:#0b254b;
+      --badge:#0ea5a5;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink);
+      font-family:"Pretendard","Noto Sans KR",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:
+        radial-gradient(120% 90% at 50% -25%, rgba(0,53,128,.16), transparent 70%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-1) 35%, var(--bg-2) 100%);
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
+
+    /* header */
+    .hd{position:sticky; top:0; z-index:50; backdrop-filter: blur(6px); background:rgba(255,255,255,.92); border-bottom:1px solid var(--line)}
+    .row{max-width:1180px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink-2); font-weight:900; letter-spacing:.2px}
+    .brand img{height:36px; width:auto; filter:saturate(0.9) contrast(1.05)}
+    .nav{display:flex; gap:10px; align-items:center}
+    .nav a, .nav button{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid var(--line);
+      background:#fff; color:var(--ink-2); text-decoration:none; cursor:pointer; font-weight:800;
+    }
+    .nav a:hover, .nav button:hover{background:#f6f7fb}
+
+    /* layout */
+    .wrap{max-width:1180px; margin:22px auto 28px; padding:0 20px}
+    .shell{ display:grid; grid-template-columns: 320px 1fr; gap:18px; min-height: calc(100vh - 140px); }
+    @media(max-width:960px){ .shell{grid-template-columns:1fr} }
+
+    /* sidebar */
+    .side{ background:var(--card); border:1px solid var(--line-2); border-radius:14px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column; min-height:420px; }
+    .side-head{display:flex; align-items:center; gap:10px; padding:12px; border-bottom:1px solid var(--line);}
+    .side-head .search{flex:1; position:relative;}
+    .side-head input{ width:100%; padding:10px 12px 10px 36px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
+    .side-head i.fa-magnifying-glass{position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted)}
+    .filters{display:flex; gap:8px; padding:10px 12px; border-bottom:1px dashed var(--line)}
+    .pill{ padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--ink-2); font-weight:800; font-size:.86rem; cursor:pointer; }
+    .pill.active{background:#eef2ff; border-color:#cfd7ff; color:#262a5f}
+    .threads{flex:1; overflow:auto; padding:6px}
+    .thread{ display:grid; grid-template-columns:48px 1fr auto; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; cursor:pointer; border:1px solid transparent; }
+    .thread:hover{background:#f7f9ff}
+    .thread.active{background:#eef2ff; border-color:#cfd7ff}
+    .avatar{width:48px; height:48px; border-radius:10px; object-fit:cover; border:1px solid var(--line)}
+    .t-title{font-weight:900; color:var(--ink-2); display:flex; gap:6px; align-items:center}
+    .online{width:8px; height:8px; border-radius:50%; background:var(--success); display:inline-block}
+    .t-last{color:var(--muted); font-size:.9rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .t-meta{display:flex; flex-direction:column; align-items:flex-end; gap:6px}
+    .time{color:var(--muted); font-size:.8rem}
+    .unread{background:var(--badge); color:#fff; padding:2px 8px; border-radius:999px; font-size:.75rem; font-weight:900}
+
+    /* chat panel */
+    .chat{ background:var(--card); border:1px solid var(--line-2); border-radius:14px; box-shadow:var(--shadow);
+      display:grid; grid-template-rows:auto 1fr auto; min-height:420px; overflow:hidden; }
+    .chat-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#fff, #fafcff); }
+    .peer{display:flex; align-items:center; gap:12px}
+    .peer img{width:40px; height:40px; border-radius:10px; object-fit:cover; border:1px solid var(--line)}
+    .peer .name{font-weight:900; color:var(--ink-2)}
+    .peer .sub{font-size:.88rem; color:var(--muted)}
+    .ch-actions{display:flex; gap:8px}
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:pointer; font-weight:800; color:var(--ink-2) }
+    .btn.primary{background:linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 100%); color:#fff; border-color:transparent; box-shadow:0 10px 26px rgba(0,53,128,.18)}
+    .btn:hover{background:#f6f7fb}
+    .btn.primary:hover{filter:saturate(1.02) brightness(1.02)}
+
+    .msgs{position:relative; overflow:auto; padding:18px; display:flex; flex-direction:column; gap:6px; background:linear-gradient(180deg,#fbfdff, #fff)}
+
+    /* === 자연스러운 메시지 배치 === */
+    .row{display:flex; gap:8px; align-items:flex-end}
+    .row.me{justify-content:flex-end}
+    .bubble{
+      max-width:66%; margin:2px 0; padding:10px 14px;
+      border-radius:16px; box-shadow:0 2px 8px rgba(0,0,0,.06);
+      line-height:1.5; word-wrap:break-word; white-space:pre-wrap;
+    }
+    .row.you .bubble{background:var(--bubble-you); color:var(--bubble-you-text); border:1px solid var(--line); border-bottom-left-radius:6px}
+    .row.me  .bubble{background:var(--bubble-me); color:var(--bubble-me-text); border:none; border-bottom-right-radius:6px}
+    .row.cont .bubble{ margin-top:1px; }
+    .row.you.cont .bubble{ border-top-left-radius:10px; }
+    .row.me.cont  .bubble{ border-top-right-radius:10px; }
+
+    .bubble .time-tag{ display:inline-block; margin-left:8px; font-size:.75rem; vertical-align:baseline; opacity:.7; }
+    .row.me .bubble .time-tag{ color:rgba(255,255,255,.85); }
+    .row.you .bubble .time-tag{ color:#6b7280; }
+
+    .avatar-sm{width:28px; height:28px; border-radius:8px; object-fit:cover; border:1px solid var(--line)}
+    .row.you .avatar-sm{ margin-right:6px; } /* 아바타가 버블 왼쪽에 붙도록 */
+    .row.you.cont .avatar-sm{ display:none; }
+
+    .date-sep{ margin:6px 0; font-size:.82rem; opacity:.9; display:flex; align-items:center; gap:10px; color:var(--muted) }
+    .date-sep::before,.date-sep::after{content:""; flex:1; height:1px; background:var(--line)}
+    .meta-line{ display:none !important; }
+
+    .attachment{margin-top:8px; border-radius:10px; overflow:hidden; border:1px solid var(--line); max-width:240px}
+    .attachment img{display:block; width:100%; height:auto}
+
+    .typing{display:flex; align-items:center; gap:6px; color:var(--muted); font-size:.9rem}
+    .typing .dot{width:6px; height:6px; border-radius:50%; background:#c5cbd6; animation:b 1s infinite ease-in-out}
+    .typing .dot:nth-child(2){animation-delay:.15s}
+    .typing .dot:nth-child(3){animation-delay:.3s}
+    @keyframes b{0%,80%,100%{opacity:.3; transform:translateY(0)}40%{opacity:1; transform:translateY(-2px)}}
+
+    .composer{ border-top:1px solid var(--line); background:#fff; padding:10px; display:flex; gap:10px; align-items:flex-end; }
+    .tools{display:flex; gap:6px}
+    .icon-btn{ width:38px; height:38px; border:1px solid var(--line); border-radius:10px; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-2) }
+    .icon-btn:hover{background:#f6f7fb}
+    .ta-wrap{flex:1; position:relative}
+    .ta{ width:100%; min-height:42px; max-height:160px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; resize:none; overflow:auto; font-size:1rem; line-height:1.45; outline:none; }
+    .ta:focus{border-color:#cfd7ff; box-shadow:0 0 0 3px rgba(109,77,230,.12)}
+    .send{ min-width:90px; height:42px; border:none; border-radius:10px; font-weight:900; letter-spacing:.2px; cursor:pointer;
+      background:linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 100%); color:#fff; box-shadow:0 10px 26px rgba(0,53,128,.18) }
+    .send:disabled{opacity:.6; cursor:not-allowed; box-shadow:none}
+
+    /* Floating: 홈 버튼만 유지 */
+    .floating-btn-group{position:fixed; right:22px; bottom:22px; display:flex; flex-direction:column; gap:12px; z-index:60}
+    .floating-btn{
+      background:#fff; border:1px solid var(--line); border-radius:50%; width:52px; height:52px;
+      display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow);
+      transition:transform .2s ease, background .2s ease
+    }
+    .floating-btn:hover{transform:translateY(-2px); background:#f1f5ff}
+    /* === 강제 정렬: 초록(내) 오른쪽 / 흰색(상대) 왼쪽 === */
+    /* === 좌우 ‘쫙’ 붙는 버블 정렬 === */
+
+/* 채팅 영역 좌우 여백 최소화 */
+.msgs{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* 각 메시지 줄이 전체 폭을 차지하도록 */
+.msgs .row{
+  display:flex; align-items:flex-end; width:100%;
+  gap:8px;            /* 아바타-버블 간격만 남김 */
+  margin-top:6px;
+}
+
+/* 상대(흰색) = 왼쪽, 내 메시지(초록) = 오른쪽 */
+.msgs .row.you{ justify-content:flex-start; padding-left: 2px; } /* 거의 왼쪽에 붙음 */
+.msgs .row.me { justify-content:flex-end;   padding-right:2px; } /* 거의 오른쪽에 붙음 */
+
+/* 버블 최대너비 ↑ (긴 문장도 보기 좋게) */
+.msgs .bubble{ max-width: 78%; }
+
+/* 상대 메시지: 아바타가 버블 왼쪽에 붙도록 */
+.msgs .row.you .avatar-sm{ order:0; margin:0 6px 0 0; }
+.msgs .row.you .bubble{ order:1; margin-left:0; }
+
+/* 내 메시지: 버블을 오른쪽 끝까지 */
+.msgs .row.me .bubble{ margin-right:0; }
+
+/* 연속 메시지는 아바타 생략 + 상단 라운딩/간격 축소 */
+.msgs .row.cont .bubble{ margin-top:0; }
+.msgs .row.you .bubble{ border-bottom-left-radius:6px; border-top-left-radius:16px; }
+.msgs .row.me  .bubble{ border-bottom-right-radius:6px; border-top-right-radius:16px; }
+.msgs .row.you.cont .bubble{ border-top-left-radius:10px; }
+.msgs .row.me.cont  .bubble{ border-top-right-radius:10px; }
+
+/* 버블 내부 시간표시(작게, 우측 하단) */
+.msgs .bubble .time-tag{ margin-left:8px; font-size:.74rem; opacity:.7; }
+.msgs .row.me .bubble .time-tag{ color:rgba(255,255,255,.85); }
+.msgs .row.you .bubble .time-tag{ color:#6b7280; }
+
+
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="logo" onclick="location.href='index.html'" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-    <img src="logo.png" alt="Logo" style="width: 32px; height: 32px;">
-    <span>Traveler</span>
-</div>
-        </div>
+  <!-- header -->
+  <header class="hd">
+    <div class="row">
+      <a href="index.html" class="brand" aria-label="T&G 홈">
+        <img src="images/logo.png" alt="T&G 로고" onerror="this.onerror=null;this.src=window.__PLH__;">
+        <span>T&G</span>
+      </a>
+      <nav class="nav" aria-label="채팅 메뉴">
+        <a href="after_login.html"><i class="fa-solid fa-grid-2"></i> 대시보드</a>
+        <a href="guide_index.html"><i class="fa-solid fa-user-group"></i> Local mate</a>
+        <button type="button" id="newChatBtn"><i class="fa-solid fa-message-plus"></i> 새 대화</button>
+      </nav>
     </div>
-    <div class="chat-container">
-        <!-- Left: Trip Concepts List -->
-        <div class="chat-list">
-            <div class="chat-list-title">여행 컨셉</div>
-            <div class="chat-list-item active" onclick="selectChat(0)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">서울 야경 투어</span>
-                    <span class="chat-list-desc">한강, 남산타워</span>
-                </div>
-            </div>
-            <div class="chat-list-item" onclick="selectChat(1)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Busan">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">부산 해변 산책</span>
-                    <span class="chat-list-desc">광안리, 해운대</span>
-                </div>
-            </div>
-            <div class="chat-list-item" onclick="selectChat(2)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Ho Chi Minh">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">호치민 맛집 탐방</span>
-                    <span class="chat-list-desc">로컬 푸드</span>
-                </div>
-            </div>
-            <div class="chat-list-item" onclick="selectChat(3)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" alt="Da Nang">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">다낭 힐링 여행</span>
-                    <span class="chat-list-desc">바나힐, 미케비치</span>
-                </div>
-            </div>
+  </header>
+
+  <main class="wrap">
+    <section class="shell" aria-label="채팅 화면">
+      <!-- sidebar -->
+      <aside class="side" aria-label="대화 목록">
+        <div class="side-head">
+          <div class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" type="search" placeholder="상대/여행지 검색…" aria-label="대화 검색" />
+          </div>
         </div>
-        <!-- Right: Chat Area -->
-        <div class="chat-main">
-            <div class="chat-header" id="chat-header">
-                <img class="chat-header-photo" id="chat-header-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
-                <div class="chat-header-info">
-                    <span class="chat-header-name" id="chat-header-name">서울 야경 투어</span>
-                    <span class="chat-header-desc" id="chat-header-desc">한강, 남산타워</span>
-                </div>
-            </div>
-            <div class="chat-messages" id="chat-messages">
-                <div class="message-row you">
-                    <div class="message-bubble">안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다.</div>
-                </div>
-                <div class="message-row me">
-                    <div class="message-bubble">안녕하세요! 투어 일정이 궁금합니다.</div>
-                </div>
-                <div class="message-row you">
-                    <div class="message-bubble">매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?</div>
-                </div>
-            </div>
-            <form class="chat-input-area" id="chat-form" autocomplete="off" onsubmit="return sendMessage();">
-                <input class="chat-input" id="chat-input" type="text" placeholder="메시지를 입력하세요..." />
-                <button class="chat-send-btn" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
-            </form>
+        <div class="filters" role="tablist" aria-label="필터">
+          <button class="pill active" data-filter="all" role="tab" aria-selected="true">전체</button>
+          <button class="pill" data-filter="unread" role="tab" aria-selected="false">안읽음</button>
+          <button class="pill" data-filter="bookings" role="tab" aria-selected="false">예약</button>
         </div>
-    </div>
-    <script>
-        // 채팅 목록 데이터
-        const chatList = [
-            {
-                name: "서울 야경 투어",
-                desc: "한강, 남산타워",
-                photo: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다." },
-                    { from: "me", text: "안녕하세요! 투어 일정이 궁금합니다." },
-                    { from: "you", text: "매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?" }
-                ]
-            },
-            {
-                name: "부산 해변 산책",
-                desc: "광안리, 해운대",
-                photo: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "안녕하세요! 부산 해변 산책에 문의주셔서 감사합니다." },
-                    { from: "me", text: "해변 산책은 몇 시간 정도 소요되나요?" },
-                    { from: "you", text: "약 2시간 정도 소요됩니다." }
-                ]
-            },
-            {
-                name: "호치민 맛집 탐방",
-                desc: "로컬 푸드",
-                photo: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "호치민 맛집 탐방에 관심 가져주셔서 감사합니다!" },
-                    { from: "me", text: "추천 음식이 있나요?" },
-                    { from: "you", text: "분짜, 쌀국수, 반미를 추천드립니다." }
-                ]
-            },
-            {
-                name: "다낭 힐링 여행",
-                desc: "바나힐, 미케비치",
-                photo: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "다낭 힐링 여행에 문의주셔서 감사합니다." },
-                    { from: "me", text: "바나힐 입장권이 포함되어 있나요?" },
-                    { from: "you", text: "네, 투어 비용에 포함되어 있습니다." }
-                ]
-            }
-        ];
+        <div id="threadList" class="threads"></div>
+      </aside>
 
-        let currentChat = 0;
-
-        function renderChat(index) {
-            // 좌측 active 처리
-            document.querySelectorAll('.chat-list-item').forEach((el, idx) => {
-                if(idx === index) el.classList.add('active');
-                else el.classList.remove('active');
-            });
-            // 헤더 변경
-            document.getElementById('chat-header-photo').src = chatList[index].photo;
-            document.getElementById('chat-header-name').textContent = chatList[index].name;
-            document.getElementById('chat-header-desc').textContent = chatList[index].desc;
-            // 메시지 렌더링
-            const messagesDiv = document.getElementById('chat-messages');
-            messagesDiv.innerHTML = '';
-            chatList[index].messages.forEach(msg => {
-                const row = document.createElement('div');
-                row.className = 'message-row ' + msg.from;
-                const bubble = document.createElement('div');
-                bubble.className = 'message-bubble';
-                bubble.textContent = msg.text;
-                row.appendChild(bubble);
-                messagesDiv.appendChild(row);
-            });
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        function selectChat(index) {
-            currentChat = index;
-            renderChat(index);
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text) return false;
-            chatList[currentChat].messages.push({ from: "me", text });
-            renderChat(currentChat);
-            input.value = '';
-            input.focus();
-            return false;
-        }
-
-        // 최초 렌더링
-        renderChat(0);
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>채팅 | Travel & Guide</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f0f6fb;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .header {
-            background: #fff;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 24px;
-        }
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #003580;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .logo:hover {
-            color: #ffb700;
-        }
-        .chat-container {
-            display: flex;
-            height: calc(100vh - 70px);
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-            overflow: hidden;
-            margin-top: 32px;
-        }
-        .chat-list {
-            width: 20%;
-            min-width: 200px;
-            background: #f7fafc;
-            border-right: 1px solid #e0e6ed;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            overflow-y: auto;
-        }
-        .chat-list-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #003580;
-            padding: 18px 18px 10px 18px;
-            border-bottom: 1px solid #e0e6ed;
-            background: #fff;
-        }
-        .chat-list-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 18px;
-            cursor: pointer;
-            transition: background 0.15s;
-            border-bottom: 1px solid #f0f6fb;
-        }
-        .chat-list-item:hover, .chat-list-item.active {
-            background: #eaf4ff;
-        }
-        .chat-list-photo {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #eee;
-            border: 2px solid #ffb700;
-        }
-        .chat-list-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-list-name {
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: #003580;
-        }
-        .chat-list-desc {
-            font-size: 0.92rem;
-            color: #888;
-            margin-top: 2px;
-        }
-        .chat-main {
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            background: #f0f6fb;
-            position: relative;
-        }
-        .chat-header {
-            background: #fff;
-            padding: 18px 28px;
-            border-bottom: 1px solid #e0e6ed;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .chat-header-photo {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ffb700;
-        }
-        .chat-header-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-header-name {
-            font-size: 1.15rem;
-            font-weight: bold;
-            color: #003580;
-        }
-        .chat-header-desc {
-            font-size: 0.97rem;
-            color: #888;
-        }
-        .chat-messages {
-            flex: 1;
-            padding: 28px 32px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-        .message-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-        }
-        .message-row.me {
-            justify-content: flex-end;
-        }
-        .message-bubble {
-            max-width: 60%;
-            padding: 12px 18px;
-            border-radius: 18px;
-            font-size: 1.02rem;
-            background: #fff;
-            color: #003580;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            position: relative;
-        }
-        .message-row.me .message-bubble {
-            background: #ffb700;
-            color: #fff;
-            border-bottom-right-radius: 6px;
-        }
-        .message-row.you .message-bubble {
-            background: #fff;
-            color: #003580;
-            border-bottom-left-radius: 6px;
-        }
-        .chat-input-area {
-            background: #fff;
-            padding: 18px 28px;
-            border-top: 1px solid #e0e6ed;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #e0e6ed;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.2s;
-        }
-        .chat-input:focus {
-            border: 1.5px solid #ffb700;
-        }
-        .chat-send-btn {
-            background: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .chat-send-btn:hover {
-            background: #c0392b;
-        }
-        @media (max-width: 900px) {
-            .chat-container {
-                max-width: 100vw;
-                border-radius: 0;
-            }
-            .chat-list {
-                min-width: 120px;
-            }
-        }
-        @media (max-width: 600px) {
-            .chat-container {
-                flex-direction: column;
-                height: 100vh;
-                margin-top: 0;
-            }
-            .chat-list {
-                width: 100vw;
-                min-width: unset;
-                height: 120px;
-                flex-direction: row;
-                border-right: none;
-                border-bottom: 1px solid #e0e6ed;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-            .chat-list-title {
-                display: none;
-            }
-            .chat-list-item {
-                flex-direction: column;
-                align-items: center;
-                min-width: 100px;
-                border-bottom: none;
-                border-right: 1px solid #f0f6fb;
-                padding: 10px 6px;
-            }
-            .chat-main {
-                width: 100vw;
-                height: calc(100vh - 120px);
-            }
-        }
-        .floating-btn-group {
-  position: fixed;
-  right: 36px;
-  bottom: 36px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  z-index: 100;
-}
-
-.floating-btn {
-  background: #fff;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  width: 54px;
-  height: 54px;
-  font-size: 2rem;
-  color: #003580;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.floating-btn:hover {
-  background: #ffb700;
-  color: #fff;
-}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="logo" onclick="location.href='index.html'">
-                <img src="logo.png" alt="Agoda Logo" style="height: 72px; vertical-align: middle; margin-right: 8px;">
-                Traveler
+      <!-- chat panel -->
+      <section class="chat" aria-live="polite">
+        <header class="chat-head">
+          <div class="peer">
+            <img id="peerAvatar" src="" alt="상대 프로필">
+            <div>
+              <div class="name" id="peerName">—</div>
+              <div class="sub" id="peerSub">오프라인</div>
             </div>
-        </div>
-    </div>
-    <div class="chat-container">
-        <!-- Left: Trip Concepts List -->
-        <div class="chat-list">
-            <div class="chat-list-title">여행 컨셉</div>
-            <div class="chat-list-item active" onclick="selectChat(0)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">서울 야경 투어</span>
-                    <span class="chat-list-desc">한강, 남산타워</span>
-                </div>
-            </div>
-            <div class="chat-list-item" onclick="selectChat(1)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Busan">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">부산 해변 산책</span>
-                    <span class="chat-list-desc">광안리, 해운대</span>
-                </div>
-            </div>
-            <div class="chat-list-item" onclick="selectChat(2)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Ho Chi Minh">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">호치민 맛집 탐방</span>
-                    <span class="chat-list-desc">로컬 푸드</span>
-                </div>
-            </div>
-            <div class="chat-list-item" onclick="selectChat(3)">
-                <img class="chat-list-photo" src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" alt="Da Nang">
-                <div class="chat-list-info">
-                    <span class="chat-list-name">다낭 힐링 여행</span>
-                    <span class="chat-list-desc">바나힐, 미케비치</span>
-                </div>
-            </div>
-        </div>
-        <!-- Right: Chat Area -->
-        <div class="chat-main">
-            <div class="chat-header" id="chat-header">
-                <img class="chat-header-photo" id="chat-header-photo" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Seoul">
-                <div class="chat-header-info">
-                    <span class="chat-header-name" id="chat-header-name">서울 야경 투어</span>
-                    <span class="chat-header-desc" id="chat-header-desc">한강, 남산타워</span>
-                </div>
-            </div>
-            <div class="chat-messages" id="chat-messages">
-                <div class="message-row you">
-                    <div class="message-bubble">안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다.</div>
-                </div>
-                <div class="message-row me">
-                    <div class="message-bubble">안녕하세요! 투어 일정이 궁금합니다.</div>
-                </div>
-                <div class="message-row you">
-                    <div class="message-bubble">매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?</div>
-                </div>
-            </div>
-            <form class="chat-input-area" id="chat-form" autocomplete="off" onsubmit="return sendMessage();">
-                <input class="chat-input" id="chat-input" type="text" placeholder="메시지를 입력하세요..." />
-                <button class="chat-send-btn" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
-            </form>
-        </div>
-    </div>
-    <script>
-        // 채팅 목록 데이터
-        const chatList = [
-            {
-                name: "서울 야경 투어",
-                desc: "한강, 남산타워",
-                photo: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다." },
-                    { from: "me", text: "안녕하세요! 투어 일정이 궁금합니다." },
-                    { from: "you", text: "매주 토요일 저녁 7시에 진행됩니다. 더 궁금한 점 있으신가요?" }
-                ]
-            },
-            {
-                name: "부산 해변 산책",
-                desc: "광안리, 해운대",
-                photo: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "안녕하세요! 부산 해변 산책에 문의주셔서 감사합니다." },
-                    { from: "me", text: "해변 산책은 몇 시간 정도 소요되나요?" },
-                    { from: "you", text: "약 2시간 정도 소요됩니다." }
-                ]
-            },
-            {
-                name: "호치민 맛집 탐방",
-                desc: "로컬 푸드",
-                photo: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "호치민 맛집 탐방에 관심 가져주셔서 감사합니다!" },
-                    { from: "me", text: "추천 음식이 있나요?" },
-                    { from: "you", text: "분짜, 쌀국수, 반미를 추천드립니다." }
-                ]
-            },
-            {
-                name: "다낭 힐링 여행",
-                desc: "바나힐, 미케비치",
-                photo: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-                messages: [
-                    { from: "you", text: "다낭 힐링 여행에 문의주셔서 감사합니다." },
-                    { from: "me", text: "바나힐 입장권이 포함되어 있나요?" },
-                    { from: "you", text: "네, 투어 비용에 포함되어 있습니다." }
-                ]
-            }
-        ];
+          </div>
+          <div class="ch-actions">
+            <button class="btn" id="muteBtn"><i class="fa-solid fa-bell-slash"></i> 알림 끄기</button>
+            <button class="btn" id="reportBtn"><i class="fa-solid fa-flag"></i> 신고</button>
+            <button class="btn primary" id="requestBtn"><i class="fa-solid fa-calendar-check"></i> 예약요청</button>
+          </div>
+        </header>
 
-        let currentChat = 0;
+        <div id="msgArea" class="msgs"></div>
 
-        function renderChat(index) {
-            // 좌측 active 처리
-            document.querySelectorAll('.chat-list-item').forEach((el, idx) => {
-                if(idx === index) el.classList.add('active');
-                else el.classList.remove('active');
-            });
-            // 헤더 변경
-            document.getElementById('chat-header-photo').src = chatList[index].photo;
-            document.getElementById('chat-header-name').textContent = chatList[index].name;
-            document.getElementById('chat-header-desc').textContent = chatList[index].desc;
-            // 메시지 렌더링
-            const messagesDiv = document.getElementById('chat-messages');
-            messagesDiv.innerHTML = '';
-            chatList[index].messages.forEach(msg => {
-                const row = document.createElement('div');
-                row.className = 'message-row ' + msg.from;
-                const bubble = document.createElement('div');
-                bubble.className = 'message-bubble';
-                bubble.textContent = msg.text;
-                row.appendChild(bubble);
-                messagesDiv.appendChild(row);
-            });
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        <form id="composer" class="composer" autocomplete="off">
+          <div class="tools">
+            <label class="icon-btn" title="이미지 첨부">
+              <input id="fileInput" type="file" accept="image/*" hidden>
+              <i class="fa-regular fa-image"></i>
+            </label>
+            <button class="icon-btn" type="button" id="emojiBtn" title="이모지"><i class="fa-regular fa-face-smile"></i></button>
+          </div>
+          <div class="ta-wrap">
+            <textarea id="ta" class="ta" rows="1" placeholder="메시지를 입력하세요 " aria-label="메시지 입력"></textarea>
+          </div>
+          <button class="send" id="sendBtn" type="submit" disabled><i class="fa-solid fa-paper-plane"></i> 전송</button>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <!-- Floating: 홈 버튼만 -->
+  <div class="floating-btn-group" aria-label="빠른 이동">
+    <button class="floating-btn" onclick="location.href='index.html'" title="Home"><i class="fa-solid fa-house"></i></button>
+  </div>
+
+  <script>
+    // placeholder image
+    window.__PLH__ = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900"><rect width="100%" height="100%" fill="#e9eef5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-size="28" font-family="Arial">이미지를 불러올 수 없습니다</text></svg>'
+    );
+
+    const STORE_KEY = 'tg_chat_threads_v2';
+    const sampleThreads = [
+      {
+        id:'seoul-night',
+        name:'서울 야경 투어',
+        sub:'보통 1시간 내 응답 · 온라인',
+        photo:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+        unread:2, booking:false, online:true,
+        messages:[
+          {from:'you', text:'안녕하세요! 서울 야경 투어에 관심 가져주셔서 감사합니다.', ts:Date.now()-1000*60*60*24},
+          {from:'me', text:'안녕하세요! 투어 일정이 궁금합니다.', ts:Date.now()-1000*60*60*23.5},
+          {from:'you', text:'매주 토요일 저녁 7시입니다. 더 궁금한 점 있으신가요?', ts:Date.now()-1000*60*60*23.4, read:true}
+        ]
+      },
+      {
+        id:'bike-hanriver',
+        name:'서울 · 한강 자전거',
+        sub:'마지막 접속 10분 전',
+        photo:'images/한강자전거.jpg',
+        unread:0, booking:true, online:false,
+        messages:[
+          {from:'you', text:'대여 포함, 안전모 필수입니다.', ts:Date.now()-1000*60*60*5},
+          {from:'me', text:'만 2명 예약하려면 비용이?', ts:Date.now()-1000*60*60*4.9},
+          {from:'you', text:'1인 ₩30,000입니다 🙌', ts:Date.now()-1000*60*60*4.8, read:true}
+        ]
+      },
+      {
+        id:'busan-beach',
+        name:'부산 해변 산책',
+        sub:'오늘 14:20 응답',
+        photo:'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80',
+        unread:0, booking:false, online:true,
+        messages:[
+          {from:'you', text:'안녕하세요! 무엇을 도와드릴까요?', ts:Date.now()-1000*60*30}
+        ]
+      }
+    ];
+
+    const state = { threads: loadThreads(), activeId: null, filter:'all', search:'' };
+
+    function loadThreads(){
+      try{ const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : sampleThreads; }
+      catch{ return sampleThreads }
+    }
+    function saveThreads(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state.threads)); }catch{} }
+
+    const qs = (s,el=document)=>el.querySelector(s);
+    const qsa = (s,el=document)=>Array.from(el.querySelectorAll(s));
+    const escapeHTML = (s)=>s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    const fmtTime = (ts)=>{ const d=new Date(ts); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
+    const sameDay=(a,b)=>{const da=new Date(a),db=new Date(b);return da.getFullYear()===db.getFullYear()&&da.getMonth()===db.getMonth()&&da.getDate()===db.getDate();};
+    const fmtDate=(ts)=>{ const d=new Date(ts); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+
+    function renderThreads(){
+      const wrap = qs('#threadList'); wrap.innerHTML='';
+      const filtered = state.threads.filter(t=>{
+        const f = (state.filter==='all') || (state.filter==='unread'&&t.unread>0) || (state.filter==='bookings'&&t.booking);
+        const s = t.name.toLowerCase().includes(state.search) || (t.sub||'').toLowerCase().includes(state.search);
+        return f && s;
+      });
+
+      filtered.forEach(t=>{
+        const li = document.createElement('div');
+        li.className='thread'+(t.id===state.activeId?' active':'');
+        li.setAttribute('role','button');
+        li.setAttribute('aria-label', `${t.name} 대화 열기`);
+        li.innerHTML = `
+          <img class="avatar" src="${t.photo}" alt="${t.name}" onerror="this.onerror=null;this.src=window.__PLH__;">
+          <div>
+            <div class="t-title">${t.online?'<span class="online" title="온라인"></span>':''}<span>${escapeHTML(t.name)}</span></div>
+            <div class="t-last">${escapeHTML((t.messages[t.messages.length-1]||{}).text||'새 대화 시작하기')}</div>
+          </div>
+          <div class="t-meta">
+            <div class="time">${t.messages.length?fmtTime(t.messages[t.messages.length-1].ts):''}</div>
+            ${t.unread?`<div class="unread" aria-label="안읽은 메시지 ${t.unread}개">${t.unread}</div>`:''}
+          </div>
+        `;
+        li.addEventListener('click',()=>openThread(t.id));
+        wrap.appendChild(li);
+      });
+
+      if(!state.activeId && filtered.length){ state.activeId = filtered[0].id; }
+      updatePeerHeader();
+      renderMessages();
+    }
+
+    function updatePeerHeader(){
+      const t = state.threads.find(x=>x.id===state.activeId);
+      if(!t){ qs('#peerName').textContent='—'; qs('#peerSub').textContent=''; qs('#peerAvatar').src=window.__PLH__; return; }
+      qs('#peerName').textContent = t.name;
+      qs('#peerSub').textContent  = t.sub || (t.online?'온라인':'오프라인');
+      qs('#peerAvatar').src = t.photo;
+      qs('#peerAvatar').onerror = function(){ this.onerror=null; this.src = window.__PLH__; };
+    }
+
+    // 자연스러운 메시지 렌더링(아바타 왼쪽 부착)
+    function renderMessages(){
+      const area = document.getElementById('msgArea'); area.innerHTML='';
+      const t = state.threads.find(x=>x.id===state.activeId);
+      if(!t){ return; }
+
+      let lastTs = 0;
+      for(let i=0;i<t.messages.length;i++){
+        const m = t.messages[i];
+        const prev = t.messages[i-1];
+        const grouped = prev && prev.from===m.from && (m.ts - prev.ts) <= 5*60*1000;
+
+        if(!sameDay(m.ts, lastTs)){
+          const sep = document.createElement('div');
+          sep.className='date-sep';
+          sep.textContent = fmtDate(m.ts);
+          area.appendChild(sep);
         }
 
-        function selectChat(index) {
-            currentChat = index;
-            renderChat(index);
+        const row = document.createElement('div');
+        row.className = 'row ' + (m.from==='me'?'me':'you') + (grouped?' cont':'');
+
+        // 상대 메시지: 아바타를 왼쪽에 먼저 배치
+        if(m.from==='you' && !grouped){
+          const av = document.createElement('img');
+          av.className='avatar-sm';
+          av.src = t.photo; av.alt = t.name;
+          av.onerror=function(){ this.onerror=null; this.src=window.__PLH__; };
+          row.appendChild(av);
         }
 
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text) return false;
-            chatList[currentChat].messages.push({ from: "me", text });
-            renderChat(currentChat);
-            input.value = '';
-            input.focus();
-            return false;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.innerHTML = escapeHTML(m.text || '');
+
+        if(m.image){
+          const at = document.createElement('div');
+          at.className='attachment';
+          const img = document.createElement('img');
+          img.src = m.image; img.alt = '첨부 이미지';
+          at.appendChild(img);
+          bubble.appendChild(at);
         }
 
-        // 최초 렌더링
-        renderChat(0);
-    </script>
-    <div class="floating-btn-group">
-  <button class="floating-btn" onclick="location.href='index.html'">
-    <i class="fa-solid fa-house"></i>
-  </button>
-  <button class="floating-btn" onclick="location.href='script.html'">
-    <i class="fa-solid fa-scroll"></i>
-  </button>
-  <button class="floating-btn" onclick="document.getElementById('chat-input').focus();">
-    <i class="fa-solid fa-comments"></i>
-  </button>
-</div>
+        const time = document.createElement('span');
+        time.className = 'time-tag';
+        time.textContent = fmtTime(m.ts);
+        bubble.appendChild(time);
+
+        row.appendChild(bubble);
+        area.appendChild(row);
+
+        lastTs = m.ts;
+      }
+
+      t.unread = 0; saveThreads();
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function openThread(id){ state.activeId = id; renderThreads(); }
+
+    qsa('.pill').forEach(p=>{
+      p.addEventListener('click',()=>{
+        qsa('.pill').forEach(x=>x.classList.remove('active'));
+        p.classList.add('active');
+        state.filter = p.dataset.filter;
+        renderThreads();
+      })
+    });
+
+    qs('#searchInput').addEventListener('input', (e)=>{
+      state.search = (e.target.value||'').trim().toLowerCase();
+      renderThreads();
+    });
+
+    qs('#newChatBtn').addEventListener('click', ()=>{
+      const id = 'new-'+Date.now();
+      state.threads.unshift({ id, name:'새 대화', sub:'', photo:window.__PLH__, unread:0, booking:false, online:false, messages:[] });
+      state.activeId = id; saveThreads(); renderThreads(); qs('#ta').focus();
+    });
+
+    const ta = qs('#ta'), sendBtn = qs('#sendBtn'), composer = qs('#composer');
+
+    ta.addEventListener('input', ()=>{
+      sendBtn.disabled = !ta.value.trim();
+      ta.style.height='auto';
+      ta.style.height=Math.min(160, ta.scrollHeight)+'px';
+    });
+    ta.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); if(!sendBtn.disabled) composer.requestSubmit(); }
+    });
+    composer.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const text = ta.value.trim(); if(!text) return;
+      pushMessage({text}); ta.value=''; ta.dispatchEvent(new Event('input'));
+    });
+
+    function pushMessage({text,image}){
+      const t = state.threads.find(x=>x.id===state.activeId);
+      if(!t) return;
+      const now = Date.now();
+      t.messages.push({from:'me', text, image, ts:now, read:false});
+      saveThreads(); renderMessages();
+
+      showTyping();
+      setTimeout(()=>{
+        hideTyping();
+        const reply = autoReply(text);
+        t.messages.push({from:'you', text:reply, ts:Date.now()});
+        const lastMe = t.messages.slice().reverse().find(m=>m.from==='me' && !m.read);
+        if(lastMe) lastMe.read = true;
+        t.unread = 0; saveThreads(); renderMessages();
+      }, 900 + Math.random()*800);
+    }
+
+    qs('#fileInput').addEventListener('change', (e)=>{
+      const file = e.target.files && e.target.files[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ()=>{ pushMessage({text:'', image: reader.result}); };
+      reader.readAsDataURL(file); e.target.value='';
+    });
+
+    qs('#emojiBtn').addEventListener('click', ()=>{
+      const emojis = ['😊','🙌','👍','🎉','📍','🕒','📷','🚲','🍜','✈️'];
+      const pick = emojis[Math.floor(Math.random()*emojis.length)];
+      const s = ta.selectionStart, e = ta.selectionEnd;
+      ta.value = ta.value.slice(0,s) + pick + ta.value.slice(e);
+      ta.focus(); ta.setSelectionRange(s+pick.length, s+pick.length);
+      ta.dispatchEvent(new Event('input'));
+    });
+
+    let typingEl;
+    function showTyping(){
+      const area = qs('#msgArea'); hideTyping();
+      typingEl = document.createElement('div');
+      typingEl.className='typing';
+      typingEl.innerHTML = `<span class="dot"></span><span class="dot"></span><span class="dot"></span> 입력 중…`;
+      area.appendChild(typingEl); area.scrollTop = area.scrollHeight;
+    }
+    function hideTyping(){ if(typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl); typingEl=null; }
+
+    function autoReply(text){
+      text = text.toLowerCase();
+      if(text.includes('가격')||text.includes('비용')) return '1인 기준 가격을 안내드렸어요. 인원에 따라 할인도 가능합니다.';
+      if(text.includes('예약')) return '가능한 날짜를 알려주시면 예약 도와드릴게요!';
+      if(text.includes('위치')||text.includes('만나는')) return '만남 장소는 2호선 시청역 3번 출구 앞입니다.';
+      return '네, 확인했습니다. 더 도와드릴 내용이 있을까요?';
+    }
+
+    qs('#muteBtn').addEventListener('click', ()=>alert('알림이 꺼졌습니다(데모).'));
+    qs('#reportBtn').addEventListener('click', ()=>confirm('해당 사용자를 신고하시겠어요? (데모)') && alert('신고가 접수되었습니다(데모).'));
+    qs('#requestBtn').addEventListener('click', ()=>alert('예약 요청 플로우로 이동합니다(데모).'));
+
+    (function init(){
+      const url = new URL(location.href);
+      const tid = url.searchParams.get('t');
+      if(tid && state.threads.some(t=>t.id===tid)) state.activeId=tid;
+      renderThreads();
+    })();
+  </script>
 </body>
 </html>
