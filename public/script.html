@@ -26,12 +26,15 @@
 
     /* header */
     .hd{position:sticky; top:0; z-index:50; backdrop-filter: blur(6px); background:rgba(255,255,255,.95); border-bottom:1px solid var(--line);}
-    .row{max-width:1180px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between;}
+    /* ✅ 헤더 전용 컨테이너 */
+    .header-row{
+      max-width:1180px; margin:0 auto; padding:14px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
     .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--brand); font-weight:900; letter-spacing:.2px}
     .brand img{height:40px; width:auto}
-    .nav{display:flex; gap:18px; align-items:center}
-    .nav a{color:var(--muted); text-decoration:none; font-weight:700}
-    .nav a:hover{color:var(--brand)}
+    /* ✅ 오른쪽 정렬되는 네비게이션 */
+    .nav{display:flex; align-items:center; justify-content:flex-end; gap:18px}
 
     /* 프로필/드롭다운 (로그인 버튼 대체) */
     .profile-area{position:relative; display:flex; align-items:center; gap:12px;}
@@ -92,7 +95,7 @@
 <body>
   <!-- header -->
   <header class="hd">
-    <div class="row">
+    <div class="header-row">
       <a href="index.html" class="brand" aria-label="T&G 홈">
         <img src="images/logo.png" alt="T&G 로고">
         <span>T&G</span>
