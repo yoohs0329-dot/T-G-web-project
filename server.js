@@ -1,21 +1,22 @@
-// server.js (정적 웹 서버 버전)
-
-const express = require('express');
 const path = require('path');
+const express = require('express');
 const app = express();
 
-// public 폴더 안의 정적 파일 제공 (html, css, js, 이미지 등)
-app.use(express.static(path.join(__dirname, 'public')));
+// ✅ 실제 public 폴더 경로 반영
+app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
-// 기본 루트("/") 요청 시 index.html 반환
+// ✅ 기본 루트("/") 요청 시 index.html 반환
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'));
 });
 
-// 서버 실행
+// ✅ API 라우트 예시
+app.get('/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});
+
+// ✅ 서버 실행
 const PORT = 8080;
 app.listen(PORT, () => {
   console.log(`✅ Server running at: http://localhost:${PORT}`);
 });
-
-// server.js (정적 웹 서버 버전)
